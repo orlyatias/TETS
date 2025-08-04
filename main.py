@@ -1,11 +1,14 @@
 from flask import Flask, request, jsonify
+import os
 
 app = Flask(__name__)
 
-@app.route('/webhook', methods=['POST'])
+@app.route("/webhook", methods=["POST"])
 def webhook():
     data = request.json
-    print(f"📨 קיבלנו Webhook: {data}")
-    return jsonify({'status': 'ok'})
+    print("📥 Webhook received:", data)
+    return jsonify({"status": "ok"}), 200
 
-app.run(host='0.0.0.0', port=8080)
+# 🟢 חובה: לקרוא את הפורט מ־Environment משתנה
+port = int(os.environ.get("PORT", 10000))
+app.run(host='0.0.0.0', port=port)
